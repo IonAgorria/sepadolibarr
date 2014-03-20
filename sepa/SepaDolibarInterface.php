@@ -131,11 +131,18 @@ abstract class BankAbstractInterface
 	 */
 	public function check_EmptyBankData($ignore_domiciliation = false)
 	{
-		$iban = empty($this->get_IBAN());
-		$bic = empty($this->get_BIC());
-		$domiciliation = empty($this->get_Domiciliation());
-		$owner = empty($this->get_Owner());
-		$owner_address = empty($this->get_OwnerAddress());
+		//Get the values
+		$iban = $this->get_IBAN();
+		$bic = $this->get_BIC();
+		$domiciliation = $this->get_Domiciliation();
+		$owner = $this->get_Owner();
+		$owner_address = $this->get_OwnerAddress();
+		//Check if they are empty
+		$iban = empty($iban);
+		$bic = empty($bic);
+		$domiciliation = empty($domiciliation);
+		$owner = empty($owner);
+		$owner_address = empty($owner_address);
 		if ($ignore_domiciliation) $domiciliation = false; //Set the domiciliation to false even if its empty or not
 		$some_empty = $iban || $bic || $domiciliation || $owner || $owner_address;
 		if (!$some_empty) { //Nothing missing
