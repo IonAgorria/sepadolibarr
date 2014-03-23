@@ -31,11 +31,11 @@ class Template_aeb3414 extends SepaMasterTemplate
 	{
 		$this->file_content = array();
 		
-		/**/
+		/**
 		//Remove these in production
 		$this->header_preparation = false;
 		$this->file_line_end = "_EOL<br>";
-		/**/
+		**/
 		$this->file_name_ext = ".txt";
 		
 		//Interfaces
