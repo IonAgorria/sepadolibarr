@@ -98,15 +98,15 @@ function list_templates($directory, $file_start)
 
 /**
  * Checks if string starts with substring
- * @param	string	$input		the string to be checked
- * @param	string	$start		the string to find
- * @param 	bool	$insenstive if is case insensitive, false by default
- * @return	bool				true if found, false if not
+ * @param	string	$input			the string to be checked
+ * @param	string	$start			the string to find
+ * @param 	bool	$insensitive 	if is case insensitive, false by default
+ * @return	bool					true if found, false if not
  */
-function starts_with($input, $start, $insenstive)
+function starts_with($input, $start, $insensitive)
 {
 	$extra = "";
-	if ($insenstive) $extra .= "i"; //Insensitive
+	if ($insensitive) $extra .= "i"; //Insensitive
 	return preg_match('#^'.$start.'#'.$extra, $input);
 }
 
@@ -170,6 +170,17 @@ function pad_len($input, $len, $pad_string = " ", $pad_type = STR_PAD_RIGHT)
 	$input = str_pad($input, $len, $pad_string, $pad_type); //Fill if smaller
 	$input = substr($input, 0, $len); //Get only inside $len
 	return $input;
+}
+
+/**
+ * str_pad variant which cuts string if excedess length
+ * @param string $search	Searching string
+ * @param string $replace	Replacing string
+ * @param string $subject	The string to modify
+ * @return string			Resultant string
+ */
+function str_replace_first($search, $replace, $subject) {
+	return implode($replace, explode($search, $subject, 2));
 }
 
 ?>

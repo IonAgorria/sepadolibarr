@@ -1,2 +1,2 @@
-sepadolibarr
+Simple sepa for dolibarr
 ============

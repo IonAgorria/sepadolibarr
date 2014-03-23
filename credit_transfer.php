@@ -90,7 +90,7 @@ if ($stage == "generate") {
 	} 
 	else 
 	{
-		include SEPADOLIBARR_TEMPLATE_URL . '/' . $template_selected; //Try to import the file
+		include SEPADOLIBARR_ABSOLUTE_URL . SEPADOLIBARR_TEMPLATE_CT_DIR . '/' . $template_selected; //Try to import the file
 
 		$class = null;
 		$class_clean = get_clean_template_name($template_selected, SEPADOLIBARR_TEMPLATE_PREFIX); 	//"clean" name (without the prefix and .php)
@@ -153,7 +153,7 @@ if ($stage == "template") {
 		print '<br><br>';
 		
 		//Create a selector
-		$templates = list_templates(SEPADOLIBARR_TEMPLATE_URL, SEPADOLIBARR_TEMPLATE_PREFIX);
+		$templates = list_templates(SEPADOLIBARR_ABSOLUTE_URL . SEPADOLIBARR_TEMPLATE_CT_DIR, SEPADOLIBARR_TEMPLATE_PREFIX);
 		print '<form id="template_selection_form" method="post" action="'.$_SERVER['PHP_SELF'].'">';
 		print '<input type="hidden" name="disable_menu" value="1">';
 		print '<input type="hidden" name="stage" value="'.$stage_chain[$stage].'">';
@@ -368,9 +368,6 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 			print '</form>';
 			
 			//Buttons
-			$excesive_price_total = convert_float_price($total_pending, 15, 2) === null;
-			//TODO: finish this
-			
 			print '<div class="tabsAction">'."\n";
 			print '<a id="next_button" class="butAction" href="">'.$langs->trans("ButtonSelectTemplate").'</a>';
 			echo '
@@ -504,7 +501,7 @@ if ($stage == "bank") {
 			$radio = '<input type="radio" name="bank_selected" value="'.$acc->id.'" '.$extra.'/><br />';
 			print '<td class="nowrap" align="center">'.$radio."</td>\n";
 			
-			//
+			//Account url
 			print '<td>'.$acc->getNomUrl(1).'</td>';
 				
 			//Bank name

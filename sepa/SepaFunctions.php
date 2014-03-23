@@ -212,6 +212,21 @@ function convert_float_price($input, $numbers, $decimals)
 	return $number.$decimal;
 }
 	
+/**
+ * Filters the siren
+ * @param	str		$input						The input
+ * @return	string								The filtered siren
+ */
+
+function filtered_siren($input)
+{
+	//Remove the ES- starting that some spanish siren have
+	if (starts_with($input, "ES-", true))
+	{
+		$input = str_replace_first("ES-", "", $input);
+	}
+	return $input;
+}
 
 /**
  * This function tests and prints the result of testings

@@ -31,11 +31,11 @@ class Template_aeb3414 extends SepaMasterTemplate
 	{
 		$this->file_content = array();
 		
-		/**
+		/**/
 		//Remove these in production
 		$this->header_preparation = false;
 		$this->file_line_end = "_EOL<br>";
-		*/
+		/**/
 		$this->file_name_ext = ".txt";
 		
 		//Interfaces
@@ -60,7 +60,7 @@ class Template_aeb3414 extends SepaMasterTemplate
 		/** REGISTRO DE CABECERA ORDENANTE */
 		
 		//Datos de ordenante
-		$ord_nif = $company_i->get_Siren();
+		$ord_nif = filtered_siren($company_i->get_Siren());
 		$ord_dexec = date_sum_days(time(), 3); 	// Enviar a la entidad, 3 dias habiles antes de ejecucion
 		$ord_id_cta = "A"; 						// Id. de la Cuenta del Ordenante : A=IBAN B=CCC
 		$ord_cta = $company_i->get_IBAN();
