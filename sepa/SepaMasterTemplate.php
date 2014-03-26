@@ -23,7 +23,7 @@
 
 require_once 'common.php';
 
-class SepaMasterTemplate
+abstract class SepaMasterTemplate
 {
 	//Passed dolibarr interface
 	protected $dol_interface;
@@ -94,11 +94,6 @@ class SepaMasterTemplate
 	 * the template implementation sould override the "Generate" function
 	 * @param	string					$file_name		The name of the generated file for download
 	 */
-	protected function Generate()
-	{
-		//This function will be overrided by subclasses
-		$this->file_content = array("OVERRIDE THIS FUNCTION");
-	}
-	
+	abstract function Generate();
 }
 ?>

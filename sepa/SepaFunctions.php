@@ -177,7 +177,6 @@ function filtered_str($input)
 		}
 		$filtered.= $char;
 	}
-	//print $input."<br>".$filtered."<br>";
 	return $filtered;
 }
 /**
@@ -229,59 +228,7 @@ function filtered_siren($input)
 }
 
 /**
- * This function tests and prints the result of testings
- * the result sould match the harbour version...
+ * Generates a pseudorandom ID, Maximum of 35 characters.
+ * 
  */
-function TestAll() {
-	
-	/* Original Harbour version:
-	? "cTime"
-	? cTime()
-	
-	? "fDate"
-	? fDate()
-	
-	? "sDate"
-	? sDate()
-	
-	? "IsoDateTime"
-	? IsoDateTime()
-	 */
-	
-	/* Result of executing above code:
-	cTime                                                                                                                                                       
-	224724
-	
-	fDate 
-	20140308
-	
-	sDate   
-	2014-03-08
-	
-	IsoDateTime
-	2014-03-08T22:47:24
-	*/
-	print "<head></head><html>";
-	print "cTime<br>";
-	print cTime();
-	
-	print "<br>fDate<br>";
-	print fDate();
-	
-	print "<br>sDate<br>";
-	print sDate();
-	
-	print "<br>IsoDateTime<br>";
-	print IsoDateTime();
-
-	print "<br>calculate_creditor_identifier<br>";
-	print calculate_creditor_identifier("ES", "123", "A12345678");
-	print "<br>";
-	print calculate_creditor_identifier("ES", "543", "A4CF05Z98");
-	print "<br>";
-	print calculate_creditor_identifier("NL", "ZZZ", "5FF02149533FF");
-	print "</html>";
-}
-
-if (!empty($_GET["test_sepa_functions"])) TestAll(); //put ?test_sepa_functions=1 in url to test this
 ?>

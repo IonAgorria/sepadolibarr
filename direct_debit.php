@@ -1,3 +1,3 @@
 <?php
-// Dummy file, TODO
+	print "Not implemented"; // Dummy file, TODO
 ?>
