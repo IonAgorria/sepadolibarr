@@ -4,6 +4,7 @@ define("SEPADOLIBARR_TEMPLATE_PREFIX", "template_");
 define("SEPADOLIBARR_TEMPLATE_CT_DIR", "templates_ct");
 define("SEPADOLIBARR_TEMPLATE_DD_DIR", "templates_dd");
 define("SEPADOLIBARR_CHAR_SET", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /-?:().,+");
+define("SEPADOLIBARR_DELAY_DAYS", 1);
 
 //You sould not touch anything from this point
 define("SEPADOLIBARR_REPLACE_URL", "?sepadolibarr_replacedwithhash");

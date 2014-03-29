@@ -160,27 +160,98 @@ function prepare_download_header($file_name)
 }
 
 /**
- * str_pad variant which cuts string if excedess length
+ * cuts the string from max size
  * @param string $input		Input string
  * @param int	 $len		The length
- * @param string $fill		The fill if input is smaller than length
+ * @return	string			Resultant string
  */
-function pad_len($input, $len, $pad_string = " ", $pad_type = STR_PAD_RIGHT)
+function cut_str($input, $len)
 {
-	$input = str_pad($input, $len, $pad_string, $pad_type); //Fill if smaller
-	$input = substr($input, 0, $len); //Get only inside $len
-	return $input;
+	return substr($input, 0, $len); //Get only inside $len
 }
 
 /**
  * str_pad variant which cuts string if excedess length
- * @param string $search	Searching string
- * @param string $replace	Replacing string
- * @param string $subject	The string to modify
- * @return string			Resultant string
+ * @param string $input		Input string
+ * @param int	 $len		The length
+ * @param string $fill		The fill if input is smaller than length
+ * @return	string			Resultant string
+ */
+function pad_len($input, $len, $pad_string = " ", $pad_type = STR_PAD_RIGHT)
+{
+	$input = str_pad($input, $len, $pad_string, $pad_type); //Fill if smaller
+	$input = cut_str($input, $len); //Get only inside $len
+	return $input;
+}
+
+/**
+ * str_replace variant which only replaces the first coincidence
+ * @param 	string $search	Searching string
+ * @param 	string $replace	Replacing string
+ * @param 	string $subject	The string to modify
+ * @return 	string			Resultant string
  */
 function str_replace_first($search, $replace, $subject) {
 	return implode($replace, explode($search, $subject, 2));
 }
+
+/**
+ * This function translates from dolibarr
+ * @param	string			String to translate
+ * @return string			Resultant string
+ */
+function translate($string) {
+	global $langs;
+	return $langs->trans($string);
+}
+
+
+/**
+ * This function converts non alphanumeric chars to $replacement
+ * @param	string	$input		String to convert
+ * @param	string	$replace	The string to replace if is non alnum
+ * @return 	string				Resultant string
+ */
+function replace_nonalnum($input, $replace = "_")
+{
+	$filtered = "";
+	$input_array = str_split_unicode($input);
+	foreach ($input_array as $char) {
+		if (!ctype_print($char))
+		{
+			if ($char == "\r" | $char == "\n")
+			{ //Convert CR and NL chars to space
+				$char = " ";
+			}
+			else
+			{ //Ignore the rest of non printable characters
+				$char = "";
+			}
+		}
+		elseif (ctype_alnum($char) === false)
+		{ //The === is not a typo, is necesary to do check type (strpos can return 0)
+			$char = $replace;
+		}
+		$filtered.= $char;
+	}
+	return $filtered;
+}
+
+/**
+ * This functions formats the XML string with correct newlines
+ * @param	string	$input	The string to correct
+ * @return	string			Correctly formatted string
+ */
+ function correct_xml($input)
+ {
+ 	//Newlines can cause the XML correction to fail
+ 	$input = str_replace("\n", "", $input);
+ 	$input = str_replace("\r", "", $input);
+ 	//Use DOMDocument to prettify the XML input, from: http://stackoverflow.com/questions/1840148/php-simplexml-new-line
+ 	$dom = new DOMDocument();
+ 	$dom->loadXML($input);
+ 	$dom->formatOutput = true;
+ 	return $dom->saveXML();
+ }
 
 ?>

@@ -74,6 +74,9 @@ $stage_chain = array(
 	"template" => "generate",
 );
 
+//Any ocurred generation error
+$gen_error = "";
+
 /***************************************************************************
 *                                                                          *
 *                         Generate page                                    *
@@ -93,8 +96,8 @@ if ($stage == "generate") {
 		include SEPADOLIBARR_ABSOLUTE_URL . SEPADOLIBARR_TEMPLATE_CT_DIR . '/' . $template_selected; //Try to import the file
 
 		$class = null;
-		$class_clean = get_clean_template_name($template_selected, SEPADOLIBARR_TEMPLATE_PREFIX); 	//"clean" name (without the prefix and .php)
-		$class_raw = str_replace(".php", "", $template_selected);									//original name (without .php)
+		$class_clean = 	replace_nonalnum(get_clean_template_name($template_selected, SEPADOLIBARR_TEMPLATE_PREFIX)); 	//"clean" name (without the prefix and .php)
+		$class_raw = 	replace_nonalnum(str_replace(".php", "", $template_selected));									//original name (without .php)
 		if (class_exists($class_clean)) 	$class = $class_clean;
 		elseif (class_exists($class_raw)) 	$class = $class_raw;
 		else { //No any suitable class, go back to selector
@@ -116,7 +119,12 @@ if ($stage == "generate") {
 				$template_selected,
 			);
 			$template->LoadParameters($a);
-			$template->GenerateAndDownload();
+			$gen_error = $template->GenerateAndDownload();
+			if (!empty($gen_error)) {
+				$stage = previus_stage($stage_chain, $stage);
+				setEventMessage($gen_error, "errors");
+				$disable_menu = 0;
+			}
 		}
 	}
 }
@@ -279,9 +287,6 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					}
 					$missing = $society_i->check_EmptyBankData();
 					
-					//Checks price
-					$excesive_price = convert_float_price($objp->total_ttc, 9, 2) === null;
-					
 					//Disabled state
 					$disabled_line = false;
 					if ($missing) $disabled_line = true;
@@ -329,9 +334,7 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					
 					;
 					//Total price
-					$extra = '';
-					if ($excesive_price) $extra.= 'style="color:red">';
-					print '<td align="right" '.$extra.'>'.price($objp->total_ttc)."</td>\n";
+					print '<td align="right">'.price($objp->total_ttc)."</td>\n";
 					
 					//Pending
 					print '<td align="right">'.price($pending)."</td>\n";

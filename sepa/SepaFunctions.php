@@ -180,6 +180,18 @@ function filtered_str($input)
 	return $filtered;
 }
 /**
+ * cut_len variant which cuts string if excedess length
+ * @param string 	$input		Input string
+ * @param int	 	$len		The length
+ */
+function filtered_cut_len($input, $len)
+{
+	$input = filtered_str($input);
+	$input = cut_str($input, $len);
+	return $input;
+}
+
+/**
  * pad_len variant which cuts string if excedess length, also filters the input text
  * @param string 	$input		Input string
  * @param int	 	$len		The length

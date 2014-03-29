@@ -351,10 +351,10 @@ class SocietyInterface extends BankAbstractInterface
 	 * returns "siren", in Spain is called CIF/NIF
 	 * @return     string				siren
 	 */
-	/*public function get_Siren()
+	public function get_Siren()
 	{
-		return $this->society->;
-	}*/
+		return $this->society->idprof1;
+	}
 }
 
 //Facture interface

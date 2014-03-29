@@ -23,20 +23,20 @@
 
 require_once 'common.php';
 require_once 'sepa/SepaFunctions.php';
-require 'sepa/SepaMasterTemplate.php';
+require_once 'sepa/SepaMasterTemplate.php';
 
 class Template_aeb3414 extends SepaMasterTemplate
 {
 	protected function Generate()
 	{
 		$this->file_content = array();
+		$this->file_name_ext = ".txt";
 		
 		/**
 		//Remove these in production
 		$this->header_preparation = false;
 		$this->file_line_end = "_EOL<br>";
 		**/
-		$this->file_name_ext = ".txt";
 		
 		//Interfaces
 		$company_i = $this->dol_interface->company_interface;
@@ -51,7 +51,6 @@ class Template_aeb3414 extends SepaMasterTemplate
 		
 		//Variables 
 		$line_i = 0;
-		$facture_index = 0;
 		$facture_list = explode(",", $this->facture_list_selected);
 		$ben_importe_total = 0; //Total de todas las facturas
 		$ben_type = "SUPP"; // (Para proveedores SUPP) Obligatorio para transferencias estatales : SALA=Nomina PENS=Pension
@@ -61,7 +60,7 @@ class Template_aeb3414 extends SepaMasterTemplate
 		
 		//Datos de ordenante
 		$ord_nif = filtered_siren($company_i->get_Siren());
-		$ord_dexec = date_sum_days(time(), 3); 	// Enviar a la entidad, 3 dias habiles antes de ejecucion
+		$ord_dexec = date_sum_days(time(), SEPADOLIBARR_DELAY_DAYS); 	// Enviar a la entidad, 3 dias habiles antes de ejecucion
 		$ord_id_cta = "A"; 						// Id. de la Cuenta del Ordenante : A=IBAN B=CCC
 		$ord_cta = $company_i->get_IBAN();
 		$ord_cargo = "1"; 						// 0=Cargo total operaciones 1=Un cargo por operacion
@@ -130,15 +129,24 @@ class Template_aeb3414 extends SepaMasterTemplate
 			$ben_importe = $facture_i->get_TotalTTC(); 	// Las 2 utimas posiciones, parte decimal
 			$ben_gastos = "3";							// 3 = Gastos compartidos (SHA)
 			$ben_bic = $society_i->get_BIC();
-			$ben_nombre = $society_i->get_Name();
-			$ben_direcc = $society_i->get_Address();
+			$ben_nombre = $society_i->get_Owner();
+			$ben_direcc = $society_i->get_Address(); 	//We use address from soc instead of bank address because bank one is concatenated (addr + zip + state...)
 			$ben_ciudad = $society_i->get_ZIP()." ".$society_i->get_Town();
 			$ben_provin = $society_i->get_State();
 			$ben_pais = $society_i->get_CountryCode();
 			$ben_concepto = $facture_i->get_RefSupplier();
-
+			
+			//Checks price
+			$ben_importe_converted = convert_float_price($ben_importe, 9, 2);
+			$excesive_price = $ben_importe_converted === null;
+			if ($excesive_price)
+			{
+				return translate("ExcessivePrice") . " " .  $facture_i->get_Ref() . " " . $ben_importe;
+			}
+			
 			//Line creation
-			$line = "";											// N.Descipcion OB=Obligatorio OP=Opcional Tipo Len Posiciones
+			$line = "";
+																// N.Descipcion OB=Obligatorio OP=Opcional Tipo Len Posiciones
 			$line.= filtered_pad_len('03', 2);					// 1 Código de Registro OB Numérico 2 01-02
 			$line.= filtered_pad_len('SCT', 3);					// 2 Código de Operación OB Alfanumérico 3 03-05
 			$line.= filtered_pad_len($norma, 5);				// 3 Versión Cuaderno OB Numérico 5 06-10
@@ -146,7 +154,7 @@ class Template_aeb3414 extends SepaMasterTemplate
 			$line.= filtered_pad_len($ben_ref, 35);				// 5 Referencia del Ordenante (AT-41) OP Alfanumérico 35 14-48
 			$line.= filtered_pad_len($ben_id_cta, 1);			// 6 Id. de la Cuenta del Beneficiario OB Alfanumérico 1 49-49
 			$line.= filtered_pad_len($ben_cta, 34);				// 7 Cuenta del Beneficiario (AT-20) OB Alfanumérico 34 50-83
-			$line.= convert_float_price($ben_importe, 9, 2);	// 8 Importe de Transferencia (AT-04) OB Numérico 11 84-94
+			$line.= $ben_importe_converted;						// 8 Importe de Transferencia (AT-04) OB Numérico 11 84-94
 			$line.= filtered_pad_len($ben_gastos, 1);			// 9 Clave de Gastos OB Numérico 1 95-95
 			$line.= filtered_pad_len($ben_bic, 11);				//10 BIC Entidad del Beneficiario (AT-23) OB Alfanumérico 11 96-106
 			$line.= filtered_pad_len($ben_nombre, 70);			//11 Nombre del Beneficiario (AT-21) OB Alfanumérico 70 107-176
@@ -206,6 +214,7 @@ class Template_aeb3414 extends SepaMasterTemplate
 		$line.= filtered_pad_len('', 560);						// 6 Libre 
 		$this->file_content[$line_i] = $line;
 		$line_i++;
+		return null; //Finished without error
 	}
 }
 ?>

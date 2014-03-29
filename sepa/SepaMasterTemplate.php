@@ -68,7 +68,7 @@ abstract class SepaMasterTemplate
 		$this->template_selected 		= $a[4];
 		return 1;
 	}
-	
+
 	/**
 	 * This function will be called when user presses "Generate"
 	 * this will call the "Generate" function which sould provide a array with a string per each ine
@@ -82,10 +82,13 @@ abstract class SepaMasterTemplate
 		$this->file_content = "";
 		$this->file_name_ext = ".txt";
 		$this->file_line_end = "\n";
-		$this->Generate($this->file_name);
-		if ($this->header_preparation) prepare_download_header($this->file_name . $this->file_name_ext);
-		foreach ($this->file_content as $line) print $line . $this->file_line_end;
-		return 1;
+		$gen_error = $this->Generate();
+		if (empty($gen_error)) 
+		{
+			if ($this->header_preparation) prepare_download_header($this->file_name . $this->file_name_ext);
+			foreach ($this->file_content as $line) print $line . $this->file_line_end;
+		}
+		return $gen_error;
 	}
 	
 	/**
@@ -94,6 +97,6 @@ abstract class SepaMasterTemplate
 	 * the template implementation sould override the "Generate" function
 	 * @param	string					$file_name		The name of the generated file for download
 	 */
-	abstract function Generate();
+	abstract protected function Generate();
 }
 ?>
