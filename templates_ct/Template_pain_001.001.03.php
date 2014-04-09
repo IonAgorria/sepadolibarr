@@ -98,7 +98,7 @@ class Template_pain_001_001_03 extends SepaMasterTemplate
 					// optional
 					'ultmtCdrt' => filtered_cut_len($society_i->get_Name(), 70),// Ultimate Creditor Name, just an information, this do not affect the payment (max 70 characters)
 					//'purp' => , 												// Do not use this if you not know how. For further information read the SEPA documentation
-					//'rmtInf' => , 											// Remittance Information, unstructured information about the remittance (max 140 characters)
+					'rmtInf' => filtered_str($facture_i->get_RefSupplier()), 	// Remittance Information, unstructured information about the remittance (max 140 characters)
 			));
 		}
 		
