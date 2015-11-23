@@ -85,7 +85,7 @@ abstract class BankAbstractInterface
 	 */
 	public function get_IBAN()
 	{
-		return $this->account->iban_prefix;
+		return $this->account->iban;
 	}
 
 	/** 
