@@ -1,0 +1,22 @@
+# Dolibarr language file - es_ES - sepadolibarr
+CHARSET=UTF-8
+
+Module674502Name=SEPA Dolibarr
+Module674502Desc=Generador Basico SEPA
+
+MenuSEPA=SEPA
+MenuCreditTransfer=Transferencias de credito
+MenuDirectDebit=Domiciliacion bancaria
+PendingAmount=Cantidad pendiente
+SelectBankAccount=Selecciona una cuenta corriente desde donde se realizara el pago
+ButtonSelectFacture=Seleccionar facturas
+ButtonSelectTemplate=Seleccionar plantilla
+ButtonGenerateSepa=Generar archivo SEPA
+Missing=Falta
+MissingBank=No hay seleccionado ningun banco
+MissingFacture=No hay ninguna factura seleccionada
+MissingTemplate=No hay elegido ninguna plantilla
+SelectTemplate=Selecciona una plantilla o formato del archivo a generar
+ClassNotFoundTemplate=No hay ninguna Clase adecuada declarada dentro de la plantilla o el nombre del archivo no coincide
+SelectTemplate=Selecciona una plantilla o formato del archivo a generar
+ExcessivePrice=Este elemento tiene un precio excesivo:
