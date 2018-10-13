@@ -260,8 +260,8 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 			print_liste_field_titre($langs->trans("BIC"),			'',	'',	'',	'',	'align="center"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("DateDue"),		'',	'',	'',	'',	'align="center"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("Price"),			'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
-			print_liste_field_titre($langs->trans("PendingAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("AlreadyPaid"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
+			print_liste_field_titre($langs->trans("PendingAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print "</tr>\n";
 	
 			//Iterate each SQL line
@@ -337,12 +337,12 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					;
 					//Total price
 					print '<td align="right">'.price($objp->total_ttc)."</td>\n";
-					
+
+                    //Paid amount
+                    print '<td align="right">'.price($objp->am)."</td>\n";
+
 					//Pending
 					print '<td align="right">'.price($pending)."</td>\n";
-					
-					//Paid amount
-					print '<td align="right">'.price($objp->am)."</td>\n";
 	
 					//Finish table line
 					print "</tr>\n";
