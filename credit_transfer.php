@@ -398,12 +398,14 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					if (count > 0) {
 						for (var i = 1; i <= count; i++) {
 							var box_name = "#facture_list_box_" + i;
+							var amt_name = "#facture_list_textbox_" + i;
 							var box = jQuery(box_name);
+							var amt = jQuery(amt_name);
 							if (box.prop("checked") == true) {
 								if (selected != "") {
 									selected = selected + ",";
 								}
-								selected = selected + box.val();
+								selected = selected + box.val() + ":" + amt.val();
 								checked_count = checked_count + 1;
 							}
 						}
