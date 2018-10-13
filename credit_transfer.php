@@ -262,6 +262,7 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 			print_liste_field_titre($langs->trans("Price"),			'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("AlreadyPaid"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("PendingAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
+            print_liste_field_titre($langs->trans("SelectAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print "</tr>\n";
 	
 			//Iterate each SQL line

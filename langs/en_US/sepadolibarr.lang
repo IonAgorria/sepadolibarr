@@ -19,3 +19,4 @@ MissingTemplate=There is no template chosen
 SelectTemplate=Select a template or file format of file to be generated
 ClassNotFoundTemplate=There is no any suitable Class declared inside template or filename doesn't match
 ExcessivePrice=This element has excessive price
+SelectAmount=Selected amount
