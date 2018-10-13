@@ -344,6 +344,13 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 
 					//Pending
 					print '<td align="right">'.price($pending)."</td>\n";
+
+                    //Selected amount slot
+                    $extra = '';
+                    if ($disabled_line) $extra.= 'disabled';
+                    $selectedAmount = '<input type="number" name="" min="0" max="'.$pending.'" step=".01" 
+                    id="facture_list_textbox_'.$i.'" value="'.($disabled_line ? 0 : $pending).'" '.$extra.'/><br />';
+                    print '<td class="nowrap" align="center">'.$selectedAmount."</td>\n";
 	
 					//Finish table line
 					print "</tr>\n";
