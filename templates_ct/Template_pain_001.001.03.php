@@ -80,9 +80,12 @@ class Template_pain_001_001_03 extends SepaMasterTemplate
 			throw new Exception("Facture list count ".count($facture_list)." doesn't match previously count ".$this->facture_list_count);
 		}
 		
-		foreach ($facture_list as $fac_id)
+		foreach ($facture_list as $fac_item)
 		{	
-
+            //Extract data
+            $item_data = explode(":", $fac_item);
+            $fac_id = $item_data[0];
+            $fac_amt = $item_data[1];
 			//Fetch the facture data and asociated society data
 			$facture_i->fetch($fac_id);
 			$society_i->fetch($facture_i->get_Society());
@@ -91,7 +94,7 @@ class Template_pain_001_001_03 extends SepaMasterTemplate
 			$creditTransferCollection->addPayment(array(
 					// needed information about the one who gets payed
 					'pmtId' => filtered_str($facture_i->get_RefSupplier()), 	// ID of the payment (EndToEndId)
-					'instdAmt' => $facture_i->get_TotalTTC(), 					// amount to pay,
+					'instdAmt' => $fac_amt, 					// amount to pay,
 					'iban' => $society_i->get_IBAN(),							// IBAN of the Creditor
 					'bic' => $society_i->get_BIC(),								// BIC of the Creditor
 					'cdtr' => filtered_cut_len($society_i->get_Owner(), 70),	// name (max 70 characters)

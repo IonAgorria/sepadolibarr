@@ -260,8 +260,9 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 			print_liste_field_titre($langs->trans("BIC"),			'',	'',	'',	'',	'align="center"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("DateDue"),		'',	'',	'',	'',	'align="center"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("Price"),			'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
-			print_liste_field_titre($langs->trans("PendingAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print_liste_field_titre($langs->trans("AlreadyPaid"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
+			print_liste_field_titre($langs->trans("PendingAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
+            print_liste_field_titre($langs->trans("SelectAmount"),	'',	'',	'',	'', 'align="right"',	$sortfield,	$sortorder);
 			print "</tr>\n";
 	
 			//Iterate each SQL line
@@ -337,12 +338,19 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					;
 					//Total price
 					print '<td align="right">'.price($objp->total_ttc)."</td>\n";
-					
+
+                    //Paid amount
+                    print '<td align="right">'.price($objp->am)."</td>\n";
+
 					//Pending
 					print '<td align="right">'.price($pending)."</td>\n";
-					
-					//Paid amount
-					print '<td align="right">'.price($objp->am)."</td>\n";
+
+                    //Selected amount slot
+                    $extra = '';
+                    if ($disabled_line) $extra.= 'disabled';
+                    $selectedAmount = '<input type="number" name="" min="0" max="'.$pending.'" step=".01" 
+                    id="facture_list_textbox_'.$i.'" value="'.($disabled_line ? 0 : $pending).'" '.$extra.'/><br />';
+                    print '<td class="nowrap" align="center">'.$selectedAmount."</td>\n";
 	
 					//Finish table line
 					print "</tr>\n";
@@ -390,12 +398,14 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 					if (count > 0) {
 						for (var i = 1; i <= count; i++) {
 							var box_name = "#facture_list_box_" + i;
+							var amt_name = "#facture_list_textbox_" + i;
 							var box = jQuery(box_name);
+							var amt = jQuery(amt_name);
 							if (box.prop("checked") == true) {
 								if (selected != "") {
 									selected = selected + ",";
 								}
-								selected = selected + box.val();
+								selected = selected + box.val() + ":" + amt.val();
 								checked_count = checked_count + 1;
 							}
 						}

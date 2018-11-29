@@ -19,3 +19,4 @@ MissingTemplate=Aucun modèle n'a été sélectionné
 SelectTemplate=Sélectionnez le modèle de document ou le format de fichier à générer
 ClassNotFoundTemplate=Aucune classe valide n'a été déclarée pour ce template, ou le chemin de fichier est incorrect
 ExcessivePrice=Le prix de cet élément est trop élevé
+SelectAmount=Montant choisi
