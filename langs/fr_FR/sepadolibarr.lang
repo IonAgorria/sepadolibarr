@@ -1,0 +1,21 @@
+# Dolibarr language file - fr_FR - sepadolibarr
+CHARSET=UTF-8
+
+Module674502Name=SEPA Dolibarr
+Module674502Desc=Génère des fichiers SEPA basiques
+
+MenuSEPA=SEPA
+MenuCreditTransfer=Virements
+MenuDirectDebit=Prévlèvements
+PendingAmount=Montant restant
+SelectBankAccount=Sélectionnez le compte à utiliser pour le paiement
+ButtonSelectFacture=Sélectionnez les factures à régler
+ButtonSelectTemplate=Sélectionnez le modèle de document à utiler
+ButtonGenerateSepa=Générer le fichier
+Missing=Manquant
+MissingBank=Aucun compte n'a été sélectionné
+MissingFacture=Aucune facture n'a été sélectionnée
+MissingTemplate=Aucun modèle n'a été sélectionné
+SelectTemplate=Sélectionnez le modèle de document ou le format de fichier à générer
+ClassNotFoundTemplate=Aucune classe valide n'a été déclarée pour ce template, ou le chemin de fichier est incorrect
+ExcessivePrice=Le prix de cet élément est trop élevé
