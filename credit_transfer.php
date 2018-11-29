@@ -228,6 +228,8 @@ if ($stage == "list" && $user->rights->fournisseur->facture->lire)
 		$sql.= " WHERE f.entity = ".$conf->entity;
 		$sql.= " AND f.fk_soc = s.rowid";
 		$sql.= " AND f.paye = 0 AND f.fk_statut = 1";
+        $sql.= " AND f.fk_mode_reglement = 2";
+        $sql.= " AND (f.fk_account = ".$bank_selected." OR f.fk_account IS NULL)";
 		if (! $user->rights->societe->client->voir) $sql .= " AND s.rowid = sc.fk_soc AND sc.fk_user = " .$user->id;
 		
 		$sql.= " GROUP BY s.rowid, s.nom, f.rowid, f.ref, f.ref_supplier, f.total_ht, f.total_ttc, f.datef, f.date_lim_reglement, f.paye, f.fk_statut, s.rowid, s.nom";
